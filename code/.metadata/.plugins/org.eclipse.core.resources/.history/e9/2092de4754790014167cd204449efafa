@@ -1,0 +1,8 @@
+package model;
+
+public class Score {
+
+	private boolean currentStrike;
+	private int currentStrikeValue;
+	
+}

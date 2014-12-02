@@ -1,0 +1,13 @@
+package model;
+
+public class Game extends Observable {
+
+	private Grid grid;
+	private Score score;
+	private ContentCaseFactory factory;
+	
+	public Grid getGrid() {
+		return grid;
+	}
+	
+}

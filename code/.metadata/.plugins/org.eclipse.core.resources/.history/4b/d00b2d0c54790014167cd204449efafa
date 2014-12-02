@@ -1,0 +1,8 @@
+package model;
+
+public class Game {
+
+	private Grid grid;
+	private Score score,
+	
+}
