@@ -65,5 +65,9 @@ public class Grid {
 		}
 		return true;
 	}
+	
+	public ContentCase getCase(int i, int j){
+		return contentGrid[i][j];
+	}
 
 }

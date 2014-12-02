@@ -1,5 +1,7 @@
 package model;
 
+import view.ContentCaseVisitor;
+
 public interface ContentCase {
 
 	public int getGain();
