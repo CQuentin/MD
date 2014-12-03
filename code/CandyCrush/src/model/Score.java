@@ -9,4 +9,8 @@ public class Score {
 	public void compute(){
 		//TODO
 	}
+
+	public int getValue() {
+		return value;
+	}
 }

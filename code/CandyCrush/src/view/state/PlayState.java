@@ -11,13 +11,13 @@ public class PlayState implements GameState{
 
 	@Override
 	public void mouseMoved(GamePanelContext context, MouseEvent e) {
+		System.out.println("Moved");
 		context.getGamePanel().validateSwap(e.getX(), e.getY());
 	}
 
 	@Override
 	public void mouseReleased(GamePanelContext context, MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		context.getGamePanel().swap();
 	}
 
 }

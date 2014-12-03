@@ -1,13 +1,22 @@
 package model;
 
-public class Game extends Observable {
+import java.util.ArrayList;
+import java.util.List;
+
+import view.Observer;
+
+public class Game implements Observable {
 
 	private Grid grid;
 	private Score score;
 	private ContentCaseFactory factory;
-
+	private List<Observer> observers;
+	
 	public Game() {
 		grid = new Grid();
+		observers = new ArrayList<Observer>();
+		factory = new BubbleFactory();
+		grid.setList(factory.createContentCase());
 	}
 
 	public Score getScore() {
@@ -29,5 +38,18 @@ public class Game extends Observable {
 
 	public Grid getGrid() {
 		return grid;
+	}
+	
+	public void addObserver(Observer observer){
+		observers.add(observer);
+	}
+	
+	public void removeObserver(){
+		observers.clear();
+	}
+	
+	public void notifyObservers(){
+		for(Observer obs : observers)
+		      obs.update(grid.getContentGrid(), score.getValue());
 	}
 }

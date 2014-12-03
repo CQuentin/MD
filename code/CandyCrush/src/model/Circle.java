@@ -31,8 +31,7 @@ public class Circle implements ContentCase {
 
 	@Override
 	public void accept(ContentCaseVisitor visitor) {
-		// TODO Auto-generated method stub
-
+		visitor.visit(this);
 	}
 
 	@Override

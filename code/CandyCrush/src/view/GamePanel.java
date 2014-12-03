@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import java.awt.event.MouseEvent;
 
 import model.ContentCase;
 import view.state.GamePanelContext;
+import view.state.PlayState;
 import controller.GameController;
 
 
@@ -25,18 +27,31 @@ public class GamePanel extends Panel implements Observer{
 	private int selectedJ;
 	private int swappedI;
 	private int swappedJ;
+	
+
 	private int caseHeight;
 	private int caseWidth;
 	private int nbRows;
 	private int nbColumns;
 	private int score;
 
-	public GamePanel(){
+	public GamePanel(GameController controller){
 		caseHeight = 32;
 		caseWidth = 32;
 		nbRows = 8;
 		nbColumns = 8;
+		
+		selectedI = -1;
+		selectedJ = -1;
+		swappedI = -1;
+		swappedJ = -1;
+		
 		visitor = new PanelContentCaseDrawer();
+		
+		this.controller = controller;
+		grid = controller.getGame().getGrid().getContentGrid();
+		
+		context = new GamePanelContext(this, new PlayState());
 		
 		MouseEventManager ma = new MouseEventManager();
 		addMouseListener(ma);
@@ -93,6 +108,7 @@ public class GamePanel extends Panel implements Observer{
 	public void setSelectedCase(int x, int y){
 		selectedI = x/caseWidth;
 		selectedJ = y/caseHeight;
+
 	}
 	
 	public void setSwappedCase(int x, int y){
@@ -113,6 +129,17 @@ public class GamePanel extends Panel implements Observer{
 
 		if( controller.isValidSwap(selectedI, selectedJ, swappedI, swappedJ) )
 			setSwappedCase(swappedX, swappedY);
+		System.out.println(controller.isValidSwap(selectedI, selectedJ, swappedI, swappedJ)); 
+	}
+	
+	public void swap() {
+        if(selectedI != -1 && selectedJ != -1 && swappedI != -1 && swappedJ != -1) {
+    		controller.swap(selectedI, selectedJ, swappedI, swappedJ);
+        }
+        repaint();
+
+        selectedI = selectedJ = swappedI = swappedJ = -1;
+		
 	}
 	
 	private class MouseEventManager extends MouseAdapter{
@@ -132,5 +159,11 @@ public class GamePanel extends Panel implements Observer{
 	        repaint();
 	    }
 	}
-
+	
+    public void update(Graphics g) {
+        paint(g);
+    }
+    public Dimension getPreferredSize() {
+        return new Dimension(32 * 8 + 1, 32 * 8 + 1);
+    }
 }

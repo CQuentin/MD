@@ -5,24 +5,11 @@ import java.util.List;
 
 import view.Observer;
 
-public class Observable {
-
-	private List<Observer> observers; 
+public interface Observable {
 	
-	public Observable(){
-		observers = new ArrayList<Observer>();
-	}
+	public void addObserver(Observer observer);
 	
-	public void addObserver(Observer observer){
-		observers.add(observer);
-	}
+	public void removeObserver();
 	
-	public void removeObserver(){
-		observers.clear();
-	}
-	
-	public void notify(ContentCase grid[][], int score){
-		for(Observer obs : observers)
-		      obs.update(grid, score);
-	}
+	public void notifyObservers();
 }

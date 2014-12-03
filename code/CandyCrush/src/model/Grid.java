@@ -13,6 +13,7 @@ public class Grid {
 	public Grid(int height, int width) {
 		this.height = height;
 		this.width = width;
+		contentGrid = new ContentCase[width][height];
 	}
 	
 	public Grid(){
@@ -26,7 +27,7 @@ public class Grid {
 			for (int j = width - 1; j >= 0; j--) {
 				if (contentGrid[i][j] == null) { // TODO
 					if (j == 0) {
-						contentGrid[i][j] = listOfContents.get(1 + rand
+						contentGrid[i][j] = listOfContents.get(1 + rand //TODO clone
 								.nextInt(listOfContents.size() - 1));
 					} else {
 						contentGrid[i][j] = contentGrid[i][j - 1];
@@ -68,6 +69,18 @@ public class Grid {
 	
 	public ContentCase getCase(int i, int j){
 		return contentGrid[i][j];
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public ContentCase[][] getContentGrid() {
+		return contentGrid;
 	}
 
 }
