@@ -36,4 +36,9 @@ public class GamePanelContext {
 		currentState.mouseReleased(this, e);
 	}
 
+	public void mouseDragged(MouseEvent e) {
+		currentState.mouseDragged(this, e);
+		
+	}
+
 }

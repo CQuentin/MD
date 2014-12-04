@@ -9,4 +9,6 @@ public interface GameState {
 	public void mouseMoved(GamePanelContext context, MouseEvent e);
 
 	public void mouseReleased(GamePanelContext context, MouseEvent e) ;
+
+	public void mouseDragged(GamePanelContext gamePanelContext, MouseEvent e);
 }

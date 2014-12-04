@@ -11,9 +11,13 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Game g = new Game();
-		GameController gController = new GameController(g);
-		GamePanel gPanel = new GamePanel(gController);
+		Game g = new Game();	
+		GameController gController = new GameController();
+		GamePanel gPanel = new GamePanel();
+		g.addObserver(gPanel);
+		
+		gController.init(g);
+		gPanel.init(gController);
 		
 		 Frame frame = new Frame("Miam, des bonbons !");
 	        frame.addWindowListener(new WindowAdapter() {

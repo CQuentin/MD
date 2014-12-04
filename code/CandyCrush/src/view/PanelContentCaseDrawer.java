@@ -31,10 +31,7 @@ public class PanelContentCaseDrawer implements ContentCaseVisitor {
 
 	@Override
 	public void visit(Circle c) {
-		if(c == null) //TODO gérer le null
-			g.setColor(Color.WHITE);
-		else
-			g.setColor(c.getColor());
+		g.setColor(c.getColor());
 		g.fillOval(width * i + border, height * j + border, width - (border+2), height - (border+2));
 	}
 

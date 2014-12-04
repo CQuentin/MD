@@ -9,11 +9,17 @@ public class Grid {
 	private ContentCase contentGrid[][];
 	private int height;
 	private int width;
+	private EmptyCase emptyCase;
 
 	public Grid(int height, int width) {
 		this.height = height;
 		this.width = width;
-		contentGrid = new ContentCase[width][height];
+		contentGrid = new ContentCase[height][width];
+		emptyCase = new EmptyCase();
+		
+		for (int i = 0 ; i < height ; i++)
+			for (int j = 0 ; j < width ; j++)
+				contentGrid[i][j] = emptyCase;
 	}
 	
 	public Grid(){
@@ -25,13 +31,13 @@ public class Grid {
 		boolean modified = false;
 		for (int i = 0; i < height; i++) {
 			for (int j = width - 1; j >= 0; j--) {
-				if (contentGrid[i][j] == null) { // TODO
+				if (contentGrid[i][j] instanceof EmptyCase) {
 					if (j == 0) {
-						contentGrid[i][j] = listOfContents.get(1 + rand //TODO clone
+						contentGrid[i][j] = listOfContents.get(rand //TODO clone
 								.nextInt(listOfContents.size() - 1));
 					} else {
 						contentGrid[i][j] = contentGrid[i][j - 1];
-						contentGrid[i][j - 1] = null; // TODO
+						contentGrid[i][j - 1] = emptyCase;
 					}
 					modified = true;
 				}
@@ -47,7 +53,7 @@ public class Grid {
 	}
 
 	public void removed(int i, int j) {
-		contentGrid[i][j] = null; // TODO
+		contentGrid[i][j] = emptyCase;
 	}
 
 	public void setList(List<ContentCase> listOfContents) {

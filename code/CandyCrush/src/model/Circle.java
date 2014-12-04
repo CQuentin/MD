@@ -36,7 +36,7 @@ public class Circle implements ContentCase {
 
 	@Override
 	public boolean isEqual(ContentCase content) {
-		if (!(content instanceof Color)) {
+		if (!(content instanceof Circle)) {
 			return false;
 		}
 		return c == (Color) content.getValue();

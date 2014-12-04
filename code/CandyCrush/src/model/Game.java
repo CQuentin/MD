@@ -14,6 +14,7 @@ public class Game implements Observable {
 	
 	public Game() {
 		grid = new Grid();
+		score = new Score();
 		observers = new ArrayList<Observer>();
 		factory = new BubbleFactory();
 		grid.setList(factory.createContentCase());
