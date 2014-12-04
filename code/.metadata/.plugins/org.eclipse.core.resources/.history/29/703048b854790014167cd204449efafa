@@ -1,6 +1,0 @@
-package model;
-
-public interface ContentCaseFactory {
-
-	public List<ContentCase> createContentCase();
-}
