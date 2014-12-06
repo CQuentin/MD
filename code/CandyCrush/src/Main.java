@@ -6,29 +6,25 @@ import model.Game;
 import controller.GameController;
 import view.GamePanel;
 
-
 public class Main {
 
 	public static void main(String[] args) {
 
-		Game g = new Game();	
-		GameController gController = new GameController();
+		Game game = new Game();
 		GamePanel gPanel = new GamePanel();
-		g.addObserver(gPanel);
+		game.addObserver(gPanel);
 		
-		gController.init(g);
-		gPanel.init(gController);
-		
-		 Frame frame = new Frame("Miam, des bonbons !");
-	        frame.addWindowListener(new WindowAdapter() {
-	            public void windowClosing(WindowEvent event) {
-	                System.exit(0);
-	            }
-	        });
-	        frame.add(gPanel);
-	        frame.pack();
-	        frame.setVisible(true);
-		
-	}
+		GameController gController = new GameController(gPanel, game);
+		gPanel.addGameActionListener(gController);
 
+		Frame frame = new Frame("Miam, des bonbons !");
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				System.exit(0);
+			}
+		});
+		frame.add(gPanel);
+		frame.pack();
+		frame.setVisible(true);
+	}
 }

@@ -9,16 +9,17 @@ import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.event.EventListenerList;
+
 import model.ContentCase;
 import view.state.GamePanelContext;
 import view.state.PlayState;
-import controller.GameController;
+import controller.GameActionListener;
 
 public class GamePanel extends Panel implements Observer {
 	private static final long serialVersionUID = 1L;
 
 	private GamePanelContext context;
-	private GameController controller;
 	private PanelContentCaseDrawer visitor;
 	private ContentCase grid[][];
 	private Image buffer;
@@ -33,34 +34,46 @@ public class GamePanel extends Panel implements Observer {
 	private int nbColumns;
 	private int score;
 
+    private final EventListenerList listeners = new EventListenerList();
+	
 	public GamePanel() {
-
-	}
-
-	public void init(GameController controller) {
 		caseHeight = 32;
 		caseWidth = 32;
-
 
 		selectedI = -1;
 		selectedJ = -1;
 		swappedI = -1;
 		swappedJ = -1;
 
-		visitor = new PanelContentCaseDrawer();
-
-		this.controller = controller;
-		grid = controller.getGame().getGrid().getContentGrid();
-		nbRows = controller.getGame().getGrid().getHeight();
-		nbColumns = controller.getGame().getGrid().getWidth();
-		
+		visitor = new PanelContentCaseDrawer();		
 		context = new GamePanelContext(this, new PlayState());
 
 		MouseEventManager ma = new MouseEventManager();
 		addMouseListener(ma);
 		addMouseMotionListener(ma);
 	}
+	
+	@Override
+	public void update(ContentCase[][] grid, int score) {
+		this.grid = grid;
+		nbRows = grid.length;
+		nbColumns = grid[0].length;
+		this.score = score;
+		repaint();
+	}
+	
+	public void addGameActionListener(GameActionListener listener) {
+		listeners.add(GameActionListener.class, listener);
+	}
+	
+	public void removeGameActionListener(GameActionListener listener) {
+		listeners.remove(GameActionListener.class, listener);
+	}
 
+	public void update(Graphics g) {
+		paint(g);
+	}
+	
 	public void paint(Graphics g2) {
 		if (buffer == null)
 			buffer = createImage(800, 600);
@@ -108,80 +121,70 @@ public class GamePanel extends Panel implements Observer {
 		g2.drawImage(buffer, 0, 0, null);
 	}
 
-	public GameController getController() {
-		return controller;
+	public Dimension getPreferredSize() {
+		return new Dimension(caseHeight * nbRows + 1, caseWidth * nbColumns + 1);
+	}
+	
+	public void setSelectedCase(int i, int j) {
+		selectedI = i;
+		selectedJ = j;
 	}
 
-	public void setSelectedCase(int x, int y) {
+	public void setSelectedCaseFromPixel(int x, int y) {
 		selectedI = x / caseWidth;
 		selectedJ = y / caseHeight;
-
 	}
-
-	public void setSwappedCase(int x, int y) {
-		swappedI = x / caseWidth;
-		swappedJ = y / caseHeight;
+	
+	public void setSwappedCase(int i, int j) {
+		swappedI = i;
+		swappedJ = j;
 	}
-
-	@Override
-	public void update(ContentCase[][] grid, int score) {
-		this.grid = grid;
-		this.score = score;
-		repaint();
-
-	}
-
-	public void validateSwap(int swappedX, int swappedY) {
+	
+	public void swappedCaseSelectedChanged(int swappedX, int swappedY) {
 		int swappedI = swappedX / caseWidth;
 		int swappedJ = swappedY / caseHeight;
-
-		if (controller.isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
-			setSwappedCase(swappedX, swappedY);
-		} else {
-			this.swappedI = -1;
-			this.swappedJ = -1;
-		}
+		
+		for(GameActionListener listener : getGameActionListener())
+			listener.swappedCaseSelectedChanged(selectedI, selectedJ, swappedI, swappedJ);
 	}
-
-	public void swap() {
-		if (selectedI != -1 && selectedJ != -1 && swappedI != -1
-				&& swappedJ != -1) {
-			controller.swap(selectedI, selectedJ, swappedI, swappedJ);
-		}
-
-		selectedI = selectedJ = swappedI = swappedJ = -1;
-
-		repaint();
+	
+	public void swappedCaseConfirmedChanged(int swappedX, int swappedY) {
+		int swappedI = swappedX / caseWidth;
+		int swappedJ = swappedY / caseHeight;
+		
+		for(GameActionListener listener : getGameActionListener())
+			listener.swappedCaseConfirmedChanged(selectedI, selectedJ, swappedI, swappedJ);
 	}
-
+	
+	private GameActionListener[] getGameActionListener() {
+		return listeners.getListeners(GameActionListener.class);
+	}
+	
 	private class MouseEventManager extends MouseAdapter {
 		// gestion des événements souris
+		
+		@Override
 		public void mousePressed(MouseEvent e) {
 			context.mousePressed(e);
 			repaint();
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e) {
 			context.mouseMoved(e);
 			repaint();
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			context.mouseReleased(e);
 			repaint();
 		}
 
+		@Override
 		public void mouseDragged(MouseEvent e) {
 			context.mouseDragged(e);
 			repaint();
 		}
-	}
-
-	public void update(Graphics g) {
-		paint(g);
-	}
-
-	public Dimension getPreferredSize() {
-		return new Dimension(32 * 8 + 1, 32 * 8 + 1);
 	}
 }

@@ -1,35 +1,31 @@
 package controller;
 
-import javax.swing.Box.Filler;
-
 import model.Game;
 import model.Grid;
+import view.GamePanel;
 
-public class GameController {
+public class GameController implements GameActionListener {
 	private Game game;
 	private Grid grid;
+	private GamePanel panel;
 
-	public void setGame(Game game) {
+	public GameController(GamePanel panel, Game game) {
+		this.panel = panel;
 		this.game = game;
+		this.grid = game.getGrid();
+		init();
 	}
 
-	public GameController() {
-
-	}
-
-	public void init(Game game) {
-		this.game = game;
-		grid = game.getGrid();
-
+	private void init() {
 		// remplir une première fois la grille
 		while (grid.fill()) {
-			triggerNotify();
+			//triggerNotify();
 		}
 		// enlever les alignements existants
 		while (removeAlignments()) {
-			triggerNotify();
+			//triggerNotify();
 			while (grid.fill()) {
-				triggerNotify();
+				//triggerNotify();
 			}
 		}
 		triggerNotify();
@@ -50,12 +46,8 @@ public class GameController {
 		game.notifyObservers();
 	}
 
-	public Game getGame() {
-		return game;
-	}
-
 	// détermine si l'échange entre deux cases est valide
-	public boolean isValidSwap(int selectedI, int selectedJ, int swappedI,
+	private boolean isValidSwap(int selectedI, int selectedJ, int swappedI,
 			int swappedJ) {
 		// il faut que les cases soient dans la grille
 		if (selectedI == -1 || swappedI == -1 || selectedJ == -1
@@ -79,16 +71,6 @@ public class GameController {
 			newAlignment |= verticalAligned(selectedI, selectedJ - i);
 			newAlignment |= verticalAligned(swappedI, swappedJ - i);
 		}
-
-		// x1 = selectedI
-		// y1 = selectedJ
-		// x2 = swappedI
-		// y2 = swappedJ
-		//
-		// newAlignment |= horizontalAligned(x1 - i, y1);
-		// newAlignment |= horizontalAligned(x2 - i, y2);
-		// newAlignment |= verticalAligned(x1, y1 - i);
-		// newAlignment |= verticalAligned(x2, y2 - i);
 
 		// puis on annule l'échange
 		grid.swap(selectedI, selectedJ, swappedI, swappedJ);
@@ -122,7 +104,7 @@ public class GameController {
 	}
 
 	// supprimer les alignements
-	boolean removeAlignments() {
+	private boolean removeAlignments() {
 		boolean marked[][] = new boolean[grid.getHeight()][grid.getWidth()];
 		int height = grid.getHeight();
 		int width = grid.getWidth();
@@ -151,4 +133,25 @@ public class GameController {
 		return modified;
 	}
 
+	@Override
+	public void swappedCaseSelectedChanged(int selectedI, int selectedJ, int swappedI, int swappedJ) {
+		
+		if(isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
+			panel.setSwappedCase(swappedI, swappedJ);
+			return;
+		}
+		
+		panel.setSwappedCase(-1, -1);
+	}
+
+	@Override
+	public void swappedCaseConfirmedChanged(int selectedI, int selectedJ, int swappedI, int swappedJ) {
+		
+		if(isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
+			swap(selectedI, selectedJ, swappedI, swappedJ);
+		}
+		
+		panel.setSelectedCase(-1, -1);
+		panel.setSwappedCase(-1, -1);
+	}
 }
