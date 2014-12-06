@@ -22,10 +22,8 @@ public class GamePanelContext {
 		return panel;
 	}
 
-	// gestion des événements souris
 	public void mousePressed(MouseEvent e) {
 		currentState.mousePressed(this, e);
-
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -38,7 +36,6 @@ public class GamePanelContext {
 
 	public void mouseDragged(MouseEvent e) {
 		currentState.mouseDragged(this, e);
-		
 	}
 
 }

@@ -46,18 +46,14 @@ public class Grid {
 		return modified;
 	}
 
-	public void swap(int x1, int y1, int x2, int y2) {
-		ContentCase tmp = contentGrid[x1][y1];
-		contentGrid[x1][y1] = contentGrid[x2][y2];
-		contentGrid[x2][y2] = tmp;
+	public void swap(int i1, int j1, int i2, int j2) {
+		ContentCase tmp = contentGrid[i1][j1];
+		contentGrid[i1][j1] = contentGrid[i2][j2];
+		contentGrid[i2][j2] = tmp;
 	}
 
 	public void removed(int i, int j) {
 		contentGrid[i][j] = emptyCase;
-	}
-
-	public void setList(List<ContentCase> listOfContents) {
-		this.listOfContents = listOfContents;
 	}
 
 	public boolean casesEqual(ContentCase... cases) {
@@ -71,6 +67,10 @@ public class Grid {
 				return false;
 		}
 		return true;
+	}
+	
+	public void setList(List<ContentCase> listOfContents) {
+		this.listOfContents = listOfContents;
 	}
 	
 	public ContentCase getCase(int i, int j){

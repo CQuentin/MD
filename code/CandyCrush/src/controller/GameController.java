@@ -93,7 +93,7 @@ public class GameController implements GameActionListener {
 	private boolean horizontalAligned(int i, int j) {
 		int height = grid.getHeight();
 		int width = grid.getWidth();
-		if (i < 0 || j < 0 || i >= height-2 || j >= width) // TODO
+		if (i < 0 || j < 0 || i >= height-2 || j >= width) 
 			return false;
 		if (grid.casesEqual(grid.getCase(i, j), grid.getCase(i + 1, j),
 				grid.getCase(i + 2, j)))
@@ -105,7 +105,7 @@ public class GameController implements GameActionListener {
 	private boolean verticalAligned(int i, int j) {
 		int height = grid.getHeight();
 		int width = grid.getWidth();
-		if (i < 0 || j < 0 || i >= height || j >= width-2) // TODO
+		if (i < 0 || j < 0 || i >= height || j >= width-2)
 			return false;
 		if (grid.casesEqual(grid.getCase(i, j), grid.getCase(i, j + 1),
 				grid.getCase(i, j + 2)))
@@ -115,32 +115,46 @@ public class GameController implements GameActionListener {
 
 	// supprimer les alignements
 	private boolean removeAlignments() {
-		boolean marked[][] = new boolean[grid.getHeight()][grid.getWidth()];
 		int height = grid.getHeight();
 		int width = grid.getWidth();
-		// passe 1 : marquer tous les alignements
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		boolean marked[][] = new boolean[height][width];
+
+		boolean markedAlignements = markeAlignements(marked);
+		
+		if (markedAlignements)
+			removeMarkedAlignements(marked);
+		
+		return markedAlignements;
+	}
+	
+	private boolean markeAlignements(boolean[][] marked) {
+		boolean markedAlignements = false;
+		
+		for (int i = 0; i < marked.length; i++) {
+			for (int j = 0; j < marked[i].length; j++) {
 				if (horizontalAligned(i, j)) {
 					marked[i][j] = marked[i + 1][j] = marked[i + 2][j] = true;
+					markedAlignements = true;
 				}
 				if (verticalAligned(i, j)) {
 					marked[i][j] = marked[i][j + 1] = marked[i][j + 2] = true;
+					markedAlignements = true;
 				}
 			}
 		}
-		// passe 2 : supprimer les cases marquées
-		boolean modified = false;
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		
+		return markedAlignements;
+	}
+	
+	private void removeMarkedAlignements(boolean[][] marked) {
+		for (int i = 0; i < marked.length; i++) {
+			for (int j = 0; j < marked[i].length; j++) {
 				if (marked[i][j]) {
 					grid.removed(i, j);
 					marked[i][j] = false;
-					modified = true;
 				}
 			}
 		}
-		return modified;
 	}
 
 	@Override

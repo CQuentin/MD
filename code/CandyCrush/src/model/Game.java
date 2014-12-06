@@ -20,25 +20,25 @@ public class Game implements Observable {
 		grid.setList(factory.createContentCase());
 	}
 
-	public Score getScore() {
-		return score;
-	}
-
 	public void setGrid(Grid grid) {
 		this.grid = grid;
+	}
+	
+	public Grid getGrid() {
+		return grid;
+	}
+	
+	public void setScore(Score score) {
+		this.score = score;
+	}
+	
+	public Score getScore() {
+		return score;
 	}
 
 	public void setFactory(ContentCaseFactory factory) {
 		this.factory = factory;
 		grid.setList(factory.createContentCase());
-	}
-
-	public void setScore(Score score) {
-		this.score = score;
-	}
-
-	public Grid getGrid() {
-		return grid;
 	}
 	
 	public void addObserver(Observer observer){

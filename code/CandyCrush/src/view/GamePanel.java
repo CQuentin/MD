@@ -22,7 +22,9 @@ public class GamePanel extends Panel implements Observer {
 	private GamePanelContext context;
 	private PanelContentCaseDrawer visitor;
 	private ContentCase grid[][];
+	
 	private Image buffer;
+	
 	private int selectedI;
 	private int selectedJ;
 	private int swappedI;
@@ -32,6 +34,8 @@ public class GamePanel extends Panel implements Observer {
 	private int caseWidth;
 	private int nbRows;
 	private int nbColumns;
+	
+	@SuppressWarnings("unused")
 	private int score;
 
     private final EventListenerList listeners = new EventListenerList();
@@ -80,6 +84,7 @@ public class GamePanel extends Panel implements Observer {
 		Graphics2D g = (Graphics2D) buffer.getGraphics();
 		visitor.setGraphics2D(g);
 		visitor.setDimensions(caseWidth, caseHeight);
+		
 		// fond
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -161,7 +166,6 @@ public class GamePanel extends Panel implements Observer {
 	}
 	
 	private class MouseEventManager extends MouseAdapter {
-		// gestion des événements souris
 		
 		@Override
 		public void mousePressed(MouseEvent e) {

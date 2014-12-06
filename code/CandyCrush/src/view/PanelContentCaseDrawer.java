@@ -13,6 +13,10 @@ public class PanelContentCaseDrawer implements ContentCaseVisitor {
 	private int j;
 	private int border;
 
+	public PanelContentCaseDrawer() {
+		border = 3;
+	}
+	
 	public void setDimensions(int width, int height){
 		this.height = height;
 		this.width = width;
@@ -23,22 +27,14 @@ public class PanelContentCaseDrawer implements ContentCaseVisitor {
 		this.j = j;
 	}
 
-
-	public PanelContentCaseDrawer() {
-		border = 3;
+	public void setGraphics2D(Graphics2D g) {
+		this.g = g;
 	}
-
+	
 	@Override
 	public void visit(Circle c) {
 		g.setColor(c.getColor());
 		g.fillOval(width * i + border, height * j + border, width - (border+2), height - (border+2));
 	}
-
-
-	public void setGraphics2D(Graphics2D g) {
-		this.g = g;
-	}
-
-
 
 }
