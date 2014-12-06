@@ -1,5 +1,10 @@
 package controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 import model.Game;
 import model.Grid;
 import view.GamePanel;
@@ -8,38 +13,43 @@ public class GameController implements GameActionListener {
 	private Game game;
 	private Grid grid;
 	private GamePanel panel;
+	private Timer animationTimer;
 
 	public GameController(GamePanel panel, Game game) {
 		this.panel = panel;
 		this.game = game;
 		this.grid = game.getGrid();
+		animationTimer = createTimer(100);
 		init();
+	}
+	
+	private Timer createTimer(int timeTic) {
+		ActionListener action = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!grid.fill() && !removeAlignments())
+					animationTimer.stop();
+				triggerNotify();
+			}
+		};
+		return new Timer(timeTic, action);
 	}
 
 	private void init() {
 		// remplir une première fois la grille
-		while (grid.fill()) {
-			//triggerNotify();
-		}
+		while (grid.fill());
+		
 		// enlever les alignements existants
 		while (removeAlignments()) {
-			//triggerNotify();
-			while (grid.fill()) {
-				//triggerNotify();
-			}
+			while (grid.fill());
 		}
 		triggerNotify();
 	}
 
 	public void swap(int selectedI, int selectedJ, int swappedI, int swappedJ) {
 		grid.swap(selectedI, selectedJ, swappedI, swappedJ);
-		do {
-			triggerNotify();
-			removeAlignments();
-			triggerNotify();
-		} while (grid.fill());
-		triggerNotify();
-
+		animationTimer.start();
 	}
 
 	private void triggerNotify() {
