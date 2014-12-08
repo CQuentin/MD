@@ -1,14 +1,11 @@
 package view.state;
 
-import java.awt.event.MouseEvent;
-
 public interface GameState {
 
-	public void mousePressed(GamePanelContext context, MouseEvent e);
-	
-	public void mouseMoved(GamePanelContext context, MouseEvent e);
+	public void swappedCaseSelectedChanged(GameContext context, int selectedI,
+			int selectedJ, int swappedI, int swappedJ);
 
-	public void mouseReleased(GamePanelContext context, MouseEvent e) ;
+	public void swappedCaseConfirmedChanged(GameContext context, int selectedI,
+			int selectedJ, int swappedI, int swappedJ);
 
-	public void mouseDragged(GamePanelContext gamePanelContext, MouseEvent e);
 }

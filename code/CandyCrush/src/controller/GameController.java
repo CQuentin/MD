@@ -8,11 +8,14 @@ import javax.swing.Timer;
 import model.Game;
 import model.Grid;
 import view.GamePanel;
+import view.state.GameContext;
+import view.state.PlayState;
 
 public class GameController implements GameActionListener {
 	private Game game;
-	private Grid grid;
 	private GamePanel panel;
+	private GameContext context;
+	private Grid grid;
 	private Timer animationTimer;
 
 	public GameController(GamePanel panel, Game game) {
@@ -20,6 +23,7 @@ public class GameController implements GameActionListener {
 		this.game = game;
 		this.grid = game.getGrid();
 		animationTimer = createTimer(100);
+		context = new GameContext(this, new PlayState());
 		init();
 	}
 	
@@ -57,7 +61,7 @@ public class GameController implements GameActionListener {
 	}
 
 	// détermine si l'échange entre deux cases est valide
-	private boolean isValidSwap(int selectedI, int selectedJ, int swappedI,
+	public boolean isValidSwap(int selectedI, int selectedJ, int swappedI,
 			int swappedJ) {
 		// il faut que les cases soient dans la grille
 		if (selectedI == -1 || swappedI == -1 || selectedJ == -1
@@ -156,26 +160,23 @@ public class GameController implements GameActionListener {
 			}
 		}
 	}
-
-	@Override
-	public void swappedCaseSelectedChanged(int selectedI, int selectedJ, int swappedI, int swappedJ) {
-		
-		if(isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
-			panel.setSwappedCase(swappedI, swappedJ);
-			return;
-		}
-		
-		panel.setSwappedCase(-1, -1);
+	
+	public GamePanel getGamePanel() {
+		return panel;
 	}
 
 	@Override
-	public void swappedCaseConfirmedChanged(int selectedI, int selectedJ, int swappedI, int swappedJ) {
-		
-		if(isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
-			swap(selectedI, selectedJ, swappedI, swappedJ);
-		}
-		
-		panel.setSelectedCase(-1, -1);
-		panel.setSwappedCase(-1, -1);
+	public void swappedCaseSelectedChanged(int selectedI, int selectedJ,
+			int swappedI, int swappedJ) {
+		context.swappedCaseSelectedChanged(selectedI, selectedJ, swappedI,
+				swappedJ);
 	}
+
+	@Override
+	public void swappedCaseConfirmedChanged(int selectedI, int selectedJ,
+			int swappedI, int swappedJ) {
+		context.swappedCaseConfirmedChanged(selectedI, selectedJ, swappedI,
+				swappedJ);
+	}
+	
 }

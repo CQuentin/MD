@@ -1,27 +1,39 @@
 package view.state;
 
-import java.awt.event.MouseEvent;
+import view.GamePanel;
+import controller.GameController;
+
 
 public class PlayState implements GameState{
 
 	@Override
-	public void mousePressed(GamePanelContext context, MouseEvent e) {
-		context.getGamePanel().setSelectedCaseFromPixel(e.getX(), e.getY());		
+	public void swappedCaseSelectedChanged(GameContext context, int selectedI,
+			int selectedJ, int swappedI, int swappedJ) {
+		
+		GameController controller = context.getGameController();
+		GamePanel panel = controller.getGamePanel();
+		
+		if(controller.isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
+			panel.setSwappedCase(swappedI, swappedJ);
+			return;
+		}
+		
+		panel.setSwappedCase(-1, -1);
 	}
 
 	@Override
-	public void mouseMoved(GamePanelContext context, MouseEvent e) {
-		context.getGamePanel().swappedCaseSelectedChanged(e.getX(), e.getY());
-	}
+	public void swappedCaseConfirmedChanged(GameContext context, int selectedI,
+			int selectedJ, int swappedI, int swappedJ) {
+		
+		GameController controller = context.getGameController();
+		GamePanel panel = controller.getGamePanel();
 
-	@Override
-	public void mouseReleased(GamePanelContext context, MouseEvent e) {
-		context.getGamePanel().swappedCaseConfirmedChanged(e.getX(), e.getY());
-	}
-
-	@Override
-	public void mouseDragged(GamePanelContext context, MouseEvent e) {
-		context.getGamePanel().swappedCaseSelectedChanged(e.getX(), e.getY());
+		if(controller.isValidSwap(selectedI, selectedJ, swappedI, swappedJ)) {
+			controller.swap(selectedI, selectedJ, swappedI, swappedJ);
+		}
+		
+		panel.setSelectedCase(-1, -1);
+		panel.setSwappedCase(-1, -1);	
 	}
 
 }
