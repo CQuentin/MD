@@ -12,14 +12,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.EventListenerList;
 
 import model.ContentCase;
-import view.state.GamePanelContext;
-import view.state.PlayState;
 import controller.GameActionListener;
 
 public class GamePanel extends Panel implements Observer {
 	private static final long serialVersionUID = 1L;
 
-	private GamePanelContext context;
 	private PanelContentCaseDrawer visitor;
 	private ContentCase grid[][];
 	
@@ -50,7 +47,6 @@ public class GamePanel extends Panel implements Observer {
 		swappedJ = -1;
 
 		visitor = new PanelContentCaseDrawer();		
-		context = new GamePanelContext(this, new PlayState());
 
 		MouseEventManager ma = new MouseEventManager();
 		addMouseListener(ma);
@@ -169,25 +165,25 @@ public class GamePanel extends Panel implements Observer {
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			context.mousePressed(e);
+			setSelectedCaseFromPixel(e.getX(), e.getY());
 			repaint();
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			context.mouseMoved(e);
+			swappedCaseSelectedChanged(e.getX(), e.getY());
 			repaint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			context.mouseReleased(e);
+			swappedCaseConfirmedChanged(e.getX(), e.getY());
 			repaint();
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			context.mouseDragged(e);
+			swappedCaseSelectedChanged(e.getX(), e.getY());
 			repaint();
 		}
 	}
