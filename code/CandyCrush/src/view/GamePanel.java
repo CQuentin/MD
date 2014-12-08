@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.EventListenerList;
 
 import model.ContentCase;
+import model.GameEvent;
 import view.state.GamePanelContext;
 import view.state.PlayState;
 import controller.GameActionListener;
@@ -37,6 +38,8 @@ public class GamePanel extends Panel implements Observer {
 	
 	@SuppressWarnings("unused")
 	private int score;
+	@SuppressWarnings("unused")
+	private double time;
 
     private final EventListenerList listeners = new EventListenerList();
 	
@@ -58,11 +61,12 @@ public class GamePanel extends Panel implements Observer {
 	}
 	
 	@Override
-	public void update(ContentCase[][] grid, int score) {
-		this.grid = grid;
+	public void update(GameEvent gEvent) {
+		this.grid = gEvent.getGrid().getContentGrid();
 		nbRows = grid.length;
 		nbColumns = grid[0].length;
-		this.score = score;
+		this.score = gEvent.getScore().getValue();
+		this.time = gEvent.getTime();
 		repaint();
 	}
 	

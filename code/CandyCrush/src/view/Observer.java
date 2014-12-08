@@ -1,9 +1,7 @@
 package view;
 
-import model.ContentCase;
+import model.GameEvent;
 
 public interface Observer {
-
-	public void update(ContentCase grid[][], int score);
-	
+	public void update(GameEvent gameEvent);
 }

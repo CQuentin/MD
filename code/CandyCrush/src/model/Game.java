@@ -1,56 +1,78 @@
 package model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Timer;
 
 import view.Observer;
 
 public class Game implements Observable {
 
-	private Grid grid;
-	private Score score;
-	private ContentCaseFactory factory;
+	private GameEvent gameEvent;
 	private List<Observer> observers;
-	
+	private Timer timeTimer;
+
 	public Game() {
-		grid = new Grid();
-		score = new Score();
+		gameEvent = new GameEvent();
 		observers = new ArrayList<Observer>();
-		factory = new BubbleFactory();
-		grid.setList(factory.createContentCase());
+		timeTimer = createTimer(100);
+	}
+	
+	private Timer createTimer(int timeTic) {
+		ActionListener action = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gameEvent.incrTimer(timeTic);
+				notifyObservers();
+			}
+		};
+		return new Timer(timeTic, action);
 	}
 
+
+
 	public void setGrid(Grid grid) {
-		this.grid = grid;
+		gameEvent.setGrid(grid);
 	}
-	
+
 	public Grid getGrid() {
-		return grid;
+		return gameEvent.getGrid();
 	}
-	
+
 	public void setScore(Score score) {
-		this.score = score;
+		gameEvent.setScore(score);
 	}
-	
+
 	public Score getScore() {
-		return score;
+		return gameEvent.getScore();
 	}
 
 	public void setFactory(ContentCaseFactory factory) {
-		this.factory = factory;
-		grid.setList(factory.createContentCase());
+		gameEvent.setFactory(factory);
 	}
-	
-	public void addObserver(Observer observer){
+
+	public void addObserver(Observer observer) {
 		observers.add(observer);
 	}
-	
-	public void removeObserver(){
+
+	public void removeObserver() {
 		observers.clear();
 	}
+
+	public GameEvent getGameEvent(){
+		return gameEvent;
+	}
 	
-	public void notifyObservers(){
-		for(Observer obs : observers)
-		      obs.update(grid.getContentGrid(), score.getValue());
+	public void notifyObservers() {
+		for (Observer obs : observers)
+			obs.update(gameEvent);
+	}
+	
+	public void start(){
+		timeTimer.start();
 	}
 }

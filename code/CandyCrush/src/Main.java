@@ -2,20 +2,19 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import model.Game;
-import controller.GameController;
-import view.GamePanel;
+import model.ClassicMode;
+import model.Level;
+import model.Mode;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		Game game = new Game();
-		GamePanel gPanel = new GamePanel();
-		game.addObserver(gPanel);
+		Mode mode = new ClassicMode();
+		Level level = new Level(mode);
 		
-		GameController gController = new GameController(gPanel, game);
-		gPanel.addGameActionListener(gController);
+		
+		
 
 		Frame frame = new Frame("Miam, des bonbons !");
 		frame.addWindowListener(new WindowAdapter() {
@@ -23,8 +22,9 @@ public class Main {
 				System.exit(0);
 			}
 		});
-		frame.add(gPanel);
+		frame.add(level.getGPanel());
 		frame.pack();
 		frame.setVisible(true);
+		level.startGame();
 	}
 }
