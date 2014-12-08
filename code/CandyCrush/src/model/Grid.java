@@ -34,7 +34,7 @@ public class Grid {
 				if (contentGrid[i][j] instanceof EmptyCase) {
 					if (j == 0) {
 						contentGrid[i][j] = listOfContents.get(rand //TODO clone
-								.nextInt(listOfContents.size() - 1));
+								.nextInt(listOfContents.size() ));
 					} else {
 						contentGrid[i][j] = contentGrid[i][j - 1];
 						contentGrid[i][j - 1] = emptyCase;
