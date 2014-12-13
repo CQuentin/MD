@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import model.Circle;
 import model.ContentCase;
+import model.EmptyCase;
 import model.Grid;
 
 import org.junit.Assert;
@@ -28,7 +29,7 @@ public class GridTest {
 	}
 	
 	@Test
-	public void test() {
+	public void testSwap() {
 		grid.swap(0, 0, 1, 0);
 		
 		ContentCase[][] expected = new ContentCase[2][1];
@@ -37,5 +38,21 @@ public class GridTest {
 		
 		Assert.assertArrayEquals(grid.getContentGrid(),expected);
 	}
-
+	
+	@Test
+	public void testRemoved(){
+		grid.removed(0, 0);
+		Assert.assertTrue(grid.getContentGrid()[0][0] instanceof EmptyCase);
+	}
+	
+	@Test
+	public void testCasesEqual1(){
+		Assert.assertFalse(grid.casesEqual(grid.getContentGrid()[0][0],grid.getContentGrid()[1][0]));
+	}
+	
+	@Test
+	public void testCasesEqual2(){
+		grid.getContentGrid()[1][0] = cBlack;
+		Assert.assertTrue(grid.casesEqual(grid.getContentGrid()[0][0],grid.getContentGrid()[1][0]));
+	}
 }
