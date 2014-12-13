@@ -1,0 +1,41 @@
+<project name="CandyCrush" default="test" basedir=".">
+	<description>
+	travis stuff
+	</description>
+	
+	<property name="src" location="code/CandyCrush/src" />
+	<property name="build" location="code/CandyCrush/build" />
+	<property name="junit" location="code/CandyCrush/lib/junit.jar" />
+	<property name="hamcrest" location="code/CandyCrush/lib/hamcrest.core.jar" />
+	
+	<path id="classpath.test">
+		<pathelement location="${junit}" />
+		<pathelement location="${hamcrest}" />
+		<pathelement location="${build}/main" />
+	</path>
+	
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/main" />
+	</target>
+	
+	<target name="compile" depends="init" description="compile">
+		<javac srcdir="${src}" destdir="${build}/main">
+			<classpath refid="classpath.test" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile">
+		<junit fork="yes" haltonfailure="true">
+			<classpath refid="classpath.test" />
+			<batchtest fork="yes" todir="tres">
+				<formatter type="brief" usefile="false" />
+				<fileset dir="${src}">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+</project>
