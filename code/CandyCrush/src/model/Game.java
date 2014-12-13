@@ -21,7 +21,7 @@ public class Game implements Observable {
 		timeTimer = createTimer(100);
 	}
 	
-	private Timer createTimer(int timeTic) {
+	private Timer createTimer(final int timeTic) {
 		ActionListener action = new ActionListener() {
 
 			@Override
