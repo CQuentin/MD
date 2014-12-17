@@ -23,5 +23,16 @@ public class EmptyCase implements ContentCase {
 	public Object getValue() {
 		return null;
 	}
+	
+	public ContentCase clone() {
+		Object o = null;
+		try {
+			o = super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			cnse.printStackTrace(System.err);
+		}
+
+		return (ContentCase) o;
+	}
 
 }

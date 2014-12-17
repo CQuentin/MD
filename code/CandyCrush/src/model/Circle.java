@@ -41,5 +41,16 @@ public class Circle implements ContentCase {
 		}
 		return c == (Color) content.getValue();
 	}
+	
+	public ContentCase clone() {
+		Object o = null;
+		try {
+			o = super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			cnse.printStackTrace(System.err);
+		}
+
+		return (ContentCase) o;
+	}
 
 }

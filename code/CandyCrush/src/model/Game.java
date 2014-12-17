@@ -33,8 +33,6 @@ public class Game implements Observable {
 		return new Timer(timeTic, action);
 	}
 
-
-
 	public void setGrid(Grid grid) {
 		gameEvent.setGrid(grid);
 	}

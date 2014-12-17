@@ -13,9 +13,6 @@ public class Main {
 		Mode mode = new ClassicMode();
 		Level level = new Level(mode);
 		
-		
-		
-
 		Frame frame = new Frame("Miam, des bonbons !");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent event) {

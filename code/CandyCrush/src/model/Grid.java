@@ -19,7 +19,7 @@ public class Grid {
 		
 		for (int i = 0 ; i < height ; i++)
 			for (int j = 0 ; j < width ; j++)
-				contentGrid[i][j] = emptyCase;
+				contentGrid[i][j] = emptyCase.clone();
 	}
 	
 	public Grid(){
@@ -33,11 +33,11 @@ public class Grid {
 			for (int j = width - 1; j >= 0; j--) {
 				if (contentGrid[i][j] instanceof EmptyCase) {
 					if (j == 0) {
-						contentGrid[i][j] = listOfContents.get(rand //TODO clone
-								.nextInt(listOfContents.size() ));
+						contentGrid[i][j] = listOfContents.get(rand
+								.nextInt(listOfContents.size())).clone();
 					} else {
 						contentGrid[i][j] = contentGrid[i][j - 1];
-						contentGrid[i][j - 1] = emptyCase;
+						contentGrid[i][j - 1] = emptyCase.clone();
 					}
 					modified = true;
 				}
