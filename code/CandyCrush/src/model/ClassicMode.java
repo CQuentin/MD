@@ -19,8 +19,8 @@ public class ClassicMode implements Mode {
 	}
 
 	@Override
-	public boolean isGameOver(GameEvent gEvent) {
-		return gEvent.getTime() <= 0;
+	public boolean isGameOver(GameEvent e) {
+		return e.getTime() <= 0;
 	}
 
 }

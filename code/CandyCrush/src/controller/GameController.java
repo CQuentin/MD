@@ -32,32 +32,26 @@ public class GameController implements GameActionListener {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!grid.fill() && !removeAlignments())
+				if (!game.fillGrid() && !removeAlignments())
 					animationTimer.stop();
-				triggerNotify();
 			}
 		};
 		return new Timer(timeTic, action);
 	}
 
-	private void init() {
+	public void init() {
 		// remplir une première fois la grille
-		while (grid.fill());
+		while (game.fillGrid());
 		
 		// enlever les alignements existants
 		while (removeAlignments()) {
-			while (grid.fill());
+			while (game.fillGrid());
 		}
-		triggerNotify();
 	}
 
 	public void swap(int selectedI, int selectedJ, int swappedI, int swappedJ) {
-		grid.swap(selectedI, selectedJ, swappedI, swappedJ);
+		game.swap(selectedI, selectedJ, swappedI, swappedJ);
 		animationTimer.start();
-	}
-
-	private void triggerNotify() {
-		game.notifyObservers();
 	}
 
 	// détermine si l'échange entre deux cases est valide
@@ -154,7 +148,7 @@ public class GameController implements GameActionListener {
 		for (int i = 0; i < marked.length; i++) {
 			for (int j = 0; j < marked[i].length; j++) {
 				if (marked[i][j]) {
-					grid.removed(i, j);
+					game.flush(i, j);
 					marked[i][j] = false;
 				}
 			}

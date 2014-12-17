@@ -2,54 +2,34 @@ package model;
 
 public class GameEvent {
 
+	private ContentCase[][] grid;
+	private int score;
 	private double time;
-	private int timeSign;
-	private Grid grid;
-	private Score score;
-	private ContentCaseFactory factory;
-
-	public GameEvent() {
-		grid = new Grid();
-		score = new Score();
-		factory = new BubbleFactory();
-		grid.setList(factory.createContentCase());
+	
+	public GameEvent(ContentCase[][] grid, int score, double time) {
+		this.time = time;
+		this.score = score;
+		copyGrid(grid);
 	}
+	
+	private void copyGrid(ContentCase grid[][]){
+        if(this.grid == null){
+            this.grid = new ContentCase [grid.length][grid[0].length];
+        }
+        for (int i = 0; i < grid.length; i++)
+            for(int j = 0; j < grid[0].length; j++)
+                this.grid[i][j] = grid[i][j];
+    }
 
-	public void setGrid(Grid grid) {
-		this.grid = grid;
-	}
-
-	public Grid getGrid() {
+	public ContentCase[][] getGrid() {
 		return grid;
 	}
 
-	public void setScore(Score score) {
-		this.score = score;
-	}
-
-	public Score getScore() {
+	public int getScore() {
 		return score;
-	}
-
-	public void setFactory(ContentCaseFactory factory) {
-		this.factory = factory;
-		grid.setList(factory.createContentCase());
 	}
 
 	public double getTime() {
 		return time;
 	}
-
-	public void setTime(double time) {
-		this.time = time;
-	}
-
-	public void setTimeSign(int timeSign) {
-		this.timeSign = timeSign;
-	}
-
-	public void incrTimer(int timeTic) {
-		time += timeSign * timeTic;
-	}
-
 }

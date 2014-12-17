@@ -11,12 +11,16 @@ import view.Observer;
 
 public class Game implements Observable {
 
-	private GameEvent gameEvent;
 	private List<Observer> observers;
 	private Timer timeTimer;
+	private double time;
+	private int timeSign;
+	private Grid grid;
+	private Score score;
 
 	public Game() {
-		gameEvent = new GameEvent();
+		grid = new Grid();
+		score = new Score();
 		observers = new ArrayList<Observer>();
 		timeTimer = createTimer(100);
 	}
@@ -26,31 +30,11 @@ public class Game implements Observable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameEvent.incrTimer(timeTic);
+				incrTimer(timeTic);
 				notifyObservers();
 			}
 		};
 		return new Timer(timeTic, action);
-	}
-
-	public void setGrid(Grid grid) {
-		gameEvent.setGrid(grid);
-	}
-
-	public Grid getGrid() {
-		return gameEvent.getGrid();
-	}
-
-	public void setScore(Score score) {
-		gameEvent.setScore(score);
-	}
-
-	public Score getScore() {
-		return gameEvent.getScore();
-	}
-
-	public void setFactory(ContentCaseFactory factory) {
-		gameEvent.setFactory(factory);
 	}
 
 	public void addObserver(Observer observer) {
@@ -60,17 +44,62 @@ public class Game implements Observable {
 	public void removeObserver() {
 		observers.clear();
 	}
-
-	public GameEvent getGameEvent(){
-		return gameEvent;
-	}
 	
 	public void notifyObservers() {
+		GameEvent e = new GameEvent(grid.getContentGrid(), score.getValue(), time);
 		for (Observer obs : observers)
-			obs.update(gameEvent);
+			obs.update(e);
 	}
 	
 	public void start(){
 		timeTimer.start();
+	}
+	
+	public void setScore(Score score) {
+		this.score = score;
+	}
+
+	public Score getScore() {
+		return score;
+	}
+
+	public void setFactory(ContentCaseFactory factory) {
+		grid.setList(factory.createContentCase());
+	}
+
+	public double getTime() {
+		return time;
+	}
+
+	public void setTime(double time) {
+		this.time = time;
+	}
+
+	public void setTimeSign(int timeSign) {
+		this.timeSign = timeSign;
+	}
+
+	public void incrTimer(int timeTic) {
+		time += timeSign * timeTic;
+	}
+	
+	public Grid getGrid() {
+		return grid;
+	}
+	
+	public boolean fillGrid() {
+		boolean res = grid.fill();
+		notifyObservers();
+		return res;
+	}
+	
+	public void flush(int i, int j) {
+		grid.removed(i, j);
+		notifyObservers();
+	}
+	
+	public void swap(int selectedI, int selectedJ, int swappedI, int swappedJ) {
+		grid.swap(selectedI, selectedJ, swappedI, swappedJ);
+		notifyObservers();
 	}
 }

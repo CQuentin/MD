@@ -17,8 +17,9 @@ public class Level implements Observer{
 		this.mode = mode;
 
 		game = new Game();
-		game.getGameEvent().setTime(mode.getTimeStart());
-		game.getGameEvent().setTimeSign(mode.getSign());
+		game.setTime(mode.getTimeStart());
+		game.setTimeSign(mode.getSign());
+		game.setFactory(new BubbleFactory());
 
 		gPanel = new GamePanel();
 		game.addObserver(gPanel);
@@ -29,8 +30,8 @@ public class Level implements Observer{
 	}
 
 	@Override
-	public void update(GameEvent gEvent ) {
-		if (mode.isGameOver(gEvent)){
+	public void update(GameEvent e ) {
+		if (mode.isGameOver(e)){
 			System.out.println("fini !! Hahahaha");
 			System.exit(0);
 		}

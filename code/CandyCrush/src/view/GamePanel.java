@@ -57,12 +57,12 @@ public class GamePanel extends Panel implements Observer {
 	}
 	
 	@Override
-	public void update(GameEvent gEvent) {
-		this.grid = gEvent.getGrid().getContentGrid();
+	public void update(GameEvent e) {
+		this.grid = e.getGrid();
 		nbRows = grid.length;
 		nbColumns = grid[0].length;
-		this.score = gEvent.getScore().getValue();
-		this.time = gEvent.getTime();
+		this.score = e.getScore();
+		this.time = e.getTime();
 		repaint();
 	}
 	
@@ -89,7 +89,16 @@ public class GamePanel extends Panel implements Observer {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		// afficher la grille vide
+		drawEmptyGrid(g);
+		drawFirstSelectedCase(g);
+		drawSecondSelectedCase(g);
+		drawContentGrid(g);
+
+		// copier l'image à l'écran
+		g2.drawImage(buffer, 0, 0, null);
+	}
+	
+	private void drawEmptyGrid(Graphics g) {
 		g.setColor(Color.BLACK);
 		for (int i = 0; i <= nbRows; i++) {
 			for (int j = 0; j <= nbColumns; j++) {
@@ -99,31 +108,31 @@ public class GamePanel extends Panel implements Observer {
 						caseWidth * j);
 			}
 		}
-
-		// afficher la première case sélectionnée
+	}
+	
+	private void drawFirstSelectedCase(Graphics g) {
 		if (selectedI != -1 && selectedJ != -1) {
 			g.setColor(Color.ORANGE);
 			g.fillRect(selectedI * caseWidth + 1, selectedJ * caseHeight + 1,
 					caseWidth - 1, caseHeight - 1);
 		}
-
-		// afficher la deuxième case sélectionnée
+	}
+	
+	private void drawSecondSelectedCase(Graphics g) {
 		if (swappedI != -1 && swappedJ != -1) {
 			g.setColor(Color.YELLOW);
 			g.fillRect(swappedI * caseWidth + 1, swappedJ * caseHeight + 1,
 					caseWidth - 1, caseHeight - 1);
 		}
-
-		// afficher le contenu de la grille
+	}
+	
+	private void drawContentGrid(Graphics g) {
 		for (int i = 0; i < nbRows; i++) {
 			for (int j = 0; j < nbColumns; j++) {
 				visitor.setPosition(i, j);
 				grid[i][j].accept(visitor);
 			}
 		}
-
-		// copier l'image à l'écran
-		g2.drawImage(buffer, 0, 0, null);
 	}
 
 	public Dimension getPreferredSize() {
@@ -133,16 +142,19 @@ public class GamePanel extends Panel implements Observer {
 	public void setSelectedCase(int i, int j) {
 		selectedI = i;
 		selectedJ = j;
+		repaint();
 	}
 
 	public void setSelectedCaseFromPixel(int x, int y) {
 		selectedI = x / caseWidth;
 		selectedJ = y / caseHeight;
+		repaint();
 	}
 	
 	public void setSwappedCase(int i, int j) {
 		swappedI = i;
 		swappedJ = j;
+		repaint();
 	}
 	
 	public void swappedCaseSelectedChanged(int swappedX, int swappedY) {
@@ -170,25 +182,25 @@ public class GamePanel extends Panel implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			setSelectedCaseFromPixel(e.getX(), e.getY());
-			repaint();
+			//repaint();
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			swappedCaseSelectedChanged(e.getX(), e.getY());
-			repaint();
+			//repaint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			swappedCaseConfirmedChanged(e.getX(), e.getY());
-			repaint();
+			//repaint();
 		}
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			swappedCaseSelectedChanged(e.getX(), e.getY());
-			repaint();
+			//repaint();
 		}
 	}
 }

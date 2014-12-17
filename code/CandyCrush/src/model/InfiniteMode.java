@@ -19,7 +19,7 @@ public class InfiniteMode implements Mode {
 	}
 
 	@Override
-	public boolean isGameOver(GameEvent gEvent) {
+	public boolean isGameOver(GameEvent e) {
 		return false;
 	}
 }
