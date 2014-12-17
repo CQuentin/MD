@@ -8,8 +8,15 @@ import mvc.model.contentcase.ContentCase;
 import mvc.model.contentcase.imp.Circle;
 import mvc.model.factory.ContentCaseFactory;
 
+/**
+ * Factory which using Circle to create a list of contents.
+ *
+ */
 public class BubbleFactory implements ContentCaseFactory {
 
+	/**
+	 * Create a set of contents which will be used to fill grid.
+	 */
 	@Override
 	public List<ContentCase> createContentCase() {
 

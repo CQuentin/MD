@@ -6,6 +6,10 @@ import java.util.Random;
 import mvc.model.contentcase.ContentCase;
 import mvc.model.contentcase.imp.EmptyCase;
 
+/**
+ * Represents grid of the game.
+ *
+ */
 public class Grid {
 
 	private List<ContentCase> listOfContents;
@@ -29,6 +33,14 @@ public class Grid {
 		this(8,8);
 	}
 
+	/**
+	 * Fill grid with random contents cases which are selected from 
+	 * the list of contents.
+	 * If the grid is already full, nothing is performed.
+	 * If the grid contains empty case, it will be filled by gravity step by step.
+	 * So, to completely fill the grid, several call may be necessary.
+	 * @return true if the grid has been modified and false otherwise.
+	 */
 	public boolean fill() {
 		Random rand = new Random();
 		boolean modified = false;
@@ -49,18 +61,34 @@ public class Grid {
 		return modified;
 	}
 
+	/**
+	 * Swap two cases.
+	 * @param i1	Horizontal position of the first case
+	 * @param j1	Vertical position of the first case
+	 * @param i2	Horizontal position of the second case
+	 * @param j2	Vertical position of the second case
+	 */
 	public void swap(int i1, int j1, int i2, int j2) {
 		ContentCase tmp = contentGrid[i1][j1];
 		contentGrid[i1][j1] = contentGrid[i2][j2];
 		contentGrid[i2][j2] = tmp;
 	}
 
+	/**
+	 * Flush content case whose position is given in parameter.
+	 * @param i		Horizontal position
+	 * @param j		Vertical position
+	 */
 	public void removed(int i, int j) {
 		contentGrid[i][j] = emptyCase;
 	}
 
+	/**
+	 * Test if content cases are equals or not.
+	 * @param cases		Content cases to test
+	 * @return true if cases are equals, false otherwise
+	 */
 	public boolean casesEqual(ContentCase... cases) {
-
 		ContentCase c0 = cases[0];
 
 		for (ContentCase c : cases) {

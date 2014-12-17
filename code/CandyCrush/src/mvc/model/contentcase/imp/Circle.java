@@ -5,6 +5,10 @@ import java.awt.Color;
 import mvc.model.contentcase.ContentCase;
 import mvc.view.visitor.ContentCaseVisitor;
 
+/**
+ * This class is used to represent a circle content case.
+ * Prototype pattern => cloneable object
+ */
 public class Circle implements ContentCase {
 
 	private Color c;
@@ -13,6 +17,9 @@ public class Circle implements ContentCase {
 		this.c = c;
 	}
 
+	/**
+	 * Return the value which is specific to this content.
+	 */
 	public Color getValue() {
 		return c;
 	}
@@ -30,6 +37,11 @@ public class Circle implements ContentCase {
 		return 1;
 	}
 
+	/**
+	 * Visitor pattern
+	 * Allows to add operations without change content case interface.
+	 * For example to draw content.
+	 */
 	@Override
 	public void accept(ContentCaseVisitor visitor) {
 		visitor.visit(this);

@@ -3,6 +3,11 @@ package mvc.model.contentcase.imp;
 import mvc.model.contentcase.ContentCase;
 import mvc.view.visitor.ContentCaseVisitor;
 
+/**
+ * Null object pattern.
+ * This class is used to represent an empty case.
+ *
+ */
 public class EmptyCase implements ContentCase {
 
 	@Override
@@ -12,7 +17,7 @@ public class EmptyCase implements ContentCase {
 
 	@Override
 	public void accept(ContentCaseVisitor visitor) {
-		
+		// Nothing to do
 	}
 
 	@Override
