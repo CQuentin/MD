@@ -2,7 +2,7 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import model.ClassicMode;
+import model.InfiniteMode;
 import model.Level;
 import model.Mode;
 
@@ -10,7 +10,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Mode mode = new ClassicMode();
+		//Mode mode = new ClassicMode();
+		Mode mode = new InfiniteMode();
 		Level level = new Level(mode);
 		
 		Frame frame = new Frame("Miam, des bonbons !");
