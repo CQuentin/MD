@@ -1,6 +1,6 @@
 package mvc.view.visitor;
 
-import mvc.model.contentCase.imp.Circle;
+import mvc.model.contentcase.imp.Circle;
 
 public interface ContentCaseVisitor {
 

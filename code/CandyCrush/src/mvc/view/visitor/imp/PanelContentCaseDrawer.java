@@ -2,7 +2,7 @@ package mvc.view.visitor.imp;
 
 import java.awt.Graphics2D;
 
-import mvc.model.contentCase.imp.Circle;
+import mvc.model.contentcase.imp.Circle;
 import mvc.view.visitor.ContentCaseVisitor;
 
 public class PanelContentCaseDrawer implements ContentCaseVisitor {

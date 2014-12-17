@@ -1,4 +1,4 @@
-package mvc.model.contentCase.imp;
+package mvc.model.contentcase.imp;
 
 import java.awt.Color;
 

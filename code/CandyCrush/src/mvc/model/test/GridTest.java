@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.model.Grid;
-import mvc.model.contentCase.imp.Circle;
-import mvc.model.contentCase.imp.EmptyCase;
 import mvc.model.contentcase.ContentCase;
+import mvc.model.contentcase.imp.Circle;
+import mvc.model.contentcase.imp.EmptyCase;
 
 import org.junit.Assert;
 import org.junit.Before;

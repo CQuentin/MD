@@ -3,8 +3,8 @@ package mvc.model;
 import java.util.List;
 import java.util.Random;
 
-import mvc.model.contentCase.imp.EmptyCase;
 import mvc.model.contentcase.ContentCase;
+import mvc.model.contentcase.imp.EmptyCase;
 
 public class Grid {
 

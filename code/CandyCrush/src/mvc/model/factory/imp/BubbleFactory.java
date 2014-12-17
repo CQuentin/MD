@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import mvc.model.contentCase.imp.Circle;
 import mvc.model.contentcase.ContentCase;
+import mvc.model.contentcase.imp.Circle;
 import mvc.model.factory.ContentCaseFactory;
 
 public class BubbleFactory implements ContentCaseFactory {

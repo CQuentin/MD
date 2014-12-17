@@ -1,4 +1,4 @@
-package mvc.model.contentCase.imp;
+package mvc.model.contentcase.imp;
 
 import mvc.model.contentcase.ContentCase;
 import mvc.view.visitor.ContentCaseVisitor;
